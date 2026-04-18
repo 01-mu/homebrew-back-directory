@@ -44,14 +44,27 @@ class BackDirectory < Formula
     pkgshare.install "scripts/bd.bash", "scripts/bd.zsh"
   end
 
+  def post_install
+    append_source_line(Pathname(ENV.fetch("HOME"))/".zshrc", %(source "#{opt_pkgshare}/bd.zsh"))
+    append_source_line(Pathname(ENV.fetch("HOME"))/".bashrc", %(source "#{opt_pkgshare}/bd.bash"))
+  end
+
+  def append_source_line(rc_path, line)
+    rc_path.dirname.mkpath
+    rc_path.touch unless rc_path.exist?
+    return if rc_path.read.include?(line)
+
+    rc_path.atomic_write("#{rc_path.read}#{rc_path.size.positive? ? "\n" : ""}#{line}\n")
+  end
+
   def caveats
     <<~EOS
-      `bd` is a shell wrapper, so you need to source the matching script in your shell rc:
+      The Homebrew install appended the wrapper source lines when they were missing:
 
         bash: source "#{opt_pkgshare}/bd.bash"
         zsh:  source "#{opt_pkgshare}/bd.zsh"
 
-      Then start a new shell or source your rc file.
+      Start a new shell or source your rc file if the current shell was already open.
     EOS
   end
 
