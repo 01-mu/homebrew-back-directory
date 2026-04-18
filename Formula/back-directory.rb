@@ -45,8 +45,15 @@ class BackDirectory < Formula
   end
 
   def post_install
-    append_source_line(Pathname(ENV.fetch("HOME"))/".zshrc", %(source "#{opt_pkgshare}/bd.zsh"))
-    append_source_line(Pathname(ENV.fetch("HOME"))/".bashrc", %(source "#{opt_pkgshare}/bd.bash"))
+    home = Pathname(ENV.fetch("HOME"))
+    append_source_line(select_rc_file(home, ".zshrc", ".zprofile"), %(source "#{opt_pkgshare}/bd.zsh"))
+    append_source_line(select_rc_file(home, ".bashrc", ".bash_profile", ".profile"), %(source "#{opt_pkgshare}/bd.bash"))
+  end
+
+  def select_rc_file(home, *candidates)
+    candidates
+      .map { |name| home/name }
+      .find { |path| path.exist? && path.writable? } || home/candidates.first
   end
 
   def append_source_line(rc_path, line)
