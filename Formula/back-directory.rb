@@ -54,15 +54,19 @@ class BackDirectory < Formula
   def select_rc_file(home, *candidates)
     candidates
       .map { |name| home/name }
-      .find { |path| path.exist? && path.writable? } || home/candidates.first
+      .find { |path| path.exist? && File.writable?(path) } || home/candidates.first
   end
 
   def append_source_line(rc_path, line)
     rc_path.dirname.mkpath
-    rc_path.touch unless rc_path.exist?
-    return if rc_path.read.include?(line)
+    File.write(rc_path, "") unless rc_path.exist?
+    contents = rc_path.read
+    return if contents.include?(line)
 
-    rc_path.atomic_write("#{rc_path.read}#{rc_path.size.positive? ? "\n" : ""}#{line}\n")
+    File.open(rc_path, "a") do |file|
+      file.write("\n") if !contents.empty? && !contents.end_with?("\n")
+      file.write("#{line}\n")
+    end
   end
 
   def caveats
