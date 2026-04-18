@@ -8,7 +8,7 @@ class BackDirectory < Formula
 
   bottle do
     root_url "https://raw.githubusercontent.com/01-mu/homebrew-back-directory/main/bottles"
-    rebuild 1
+    rebuild 2
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "9fa3d67a91e68bb214323aced3fa1b709963148868dfdc0c5c2ff17cc2f3b0ec"
   end
 
