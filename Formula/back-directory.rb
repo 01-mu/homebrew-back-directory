@@ -6,6 +6,11 @@ class BackDirectory < Formula
   license "MIT"
   head "https://github.com/01-mu/back-directory.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/01-mu/homebrew-back-directory/releases/download/back-directory-0.1.2"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "81109b14ec354ffcd7039bcaac5f2b3d26922c41bd084b1c03716dbd0ce40741"
+  end
+
   resource "bd-core-aarch64-apple-darwin" do
     url "https://github.com/01-mu/back-directory/releases/download/v0.1.2/bd-core-aarch64-apple-darwin.tar.gz"
     sha256 "e10e9db643145b6d03f78095c2a9f130259dfb0ce64d31aeb87f074bec5dd9ab"
