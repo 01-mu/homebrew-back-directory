@@ -7,7 +7,7 @@ class BackDirectory < Formula
   head "https://github.com/01-mu/back-directory.git", branch: "main"
 
   bottle do
-    root_url "https://github.com/01-mu/homebrew-back-directory/releases/download/back-directory-0.1.2"
+    root_url "https://raw.githubusercontent.com/01-mu/homebrew-back-directory/main/bottles"
     sha256 cellar: :any_skip_relocation, arm64_sequoia: "81109b14ec354ffcd7039bcaac5f2b3d26922c41bd084b1c03716dbd0ce40741"
   end
 
